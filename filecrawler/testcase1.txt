@@ -1,0 +1,27 @@
+FolderA
+  - File1
+  SubfolderA
+    - File2
+    SubfolderB
+      - File3
+      SubfolderC
+        - File4
+      *
+      SubfolderZ
+        - File8
+      *
+    *
+  *
+  SubfolderE
+    - File100
+  *
+*
+FolderB
+  - File5
+  SubfolderD
+    - File6
+  *
+*
+FolderC
+  - File7
+*

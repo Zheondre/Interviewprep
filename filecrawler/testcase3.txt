@@ -1,0 +1,74 @@
+FolderA
+  - File1
+  SubfolderA
+    - File2
+    SubfolderB
+      - File3
+      SubfolderC
+        - File4
+        SubfolderD
+          - File5
+          SubfolderE
+            - File6
+          *
+        *
+        SubfolderF
+          - File7
+          SubfolderG
+            - File8
+            SubfolderH
+              - File9
+              SubfolderI
+                - File10
+              *
+            *
+          *
+          SubfolderJ
+            - File11
+            SubfolderK
+              - File12
+            *
+          *
+        *
+      *
+      SubfolderL
+        - File13
+        SubfolderM
+          - File14
+          SubfolderN
+            - File15
+          *
+        *
+      *
+      SubfolderO
+        - File16
+      *
+    *
+    SubfolderP
+      - File17
+      SubfolderQ
+        - File18
+        SubfolderR
+          - File19
+          SubfolderS
+            - File20
+          *
+        *
+      *
+    *
+  *
+FolderB
+  - File25
+  SubfolderX
+    - File26
+    SubfolderY
+      - File27
+      SubfolderZ
+        - File28
+        SubfolderAA
+          - File29
+        *
+      *
+    *
+  *
+*

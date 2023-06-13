@@ -1,0 +1,51 @@
+FolderA
+  - File1
+  SubfolderA
+    - File2
+    SubfolderB
+      - File3
+      SubfolderC
+        - File4
+        SubfolderD
+          - File5
+        *
+      *
+    *
+  *
+*
+FolderE
+  - File10
+  SubfolderF
+    - File11
+    SubfolderG
+      - File12
+      SubfolderH
+        - File13
+      *
+      SubfolderI
+        - File14
+      *
+    *
+  *
+*
+FolderB
+  - File6
+  SubfolderC
+    - File7
+    SubfolderD
+      - File8
+      SubfolderE
+        - File9
+      *
+    *
+  *
+*
+FolderF
+  - File16
+  SubfolderG
+    - File17
+    SubfolderH
+      - File18
+    *
+  *
+*
