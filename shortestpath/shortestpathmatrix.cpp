@@ -1,90 +1,212 @@
-//start is 0,0,
-//end is n-1, n -1 
+/* 
+Problem: Given a matrix of size m x n filled with 0s and 1s, 
+where 0 represents an obstacle and 1 represents a path,
+find the shortest path from the top-left corner to the bottom-right corner,
+moving only in right or downward direction. If no path exists, return -1.
+*/
 
-struct mapRecord { 
+
+#include <iostream>
+#include <fstream>
+#include <string>
+#include <vector>
+#include <queue>
+#include <deque> 
+#include <unordered_map>
+#include <algorithm>
+#include <cassert>
+
+struct Record { 
 	int x; 
 	int y;
-	int dist;
-	
-	mapRecord(int x, int y, int dist): 
-	x(x), y(y), dist(dist)
+	Record(): x(0), y(0)
+	{}
+	Record(int x, int y): 
+	x(x), y(y)
 	{}
 }; 
 
-struct record { 
-	int val; 
-	bool visited;
-} 
+struct his { 
+
+	bool visited; 
+	int dist; 
+
+	his() { 
+		visited = false;
+		dist = 0; 
+	}
+
+	his(int val): dist(val){}
+};
 
 using namespace std; // bad but w.e.
+
+/*
+	1 0
+	0 1 
+   -1 0 
+	0-1
+*/
+
 int shortest_path(vector<vector<int>>& matrix){ 
 
-	int MAXL = matrix.length();
-	int MAXW = matrix[0].length(); 
-	int targetX = MAXL -1; 
-	int targetX = MAXW -1; 
+	int MAXR = matrix.size();
+	int MAXC = matrix[0].size(); 
+
+	vector<vector<his>> distmap(MAXR, vector<his>(MAXC));
+
+	int targetx = MAXR-1; 
+	int targety = MAXC-1; 
 	
-	if(MAXL < 1 ||  MAXW < 1) 
+	if(MAXR < 2 || MAXC < 2) 
 		return -1;
 	
-	if(!matrix[targetX][targetY]) 
+	if(!matrix[targetx][targety]) 
 		return -1;
 	
 	//vector<vector<record>> records;
 
-	unorded_map<maprecord*, bool> visited;
-	queue<maprecord*> bfs;
+	queue<Record*> bfs;
+	queue<his> test; 
 
-	mapRecord *record = new mapRecord(0, 0, 0);
+	// test.push(his(1));
+	// test.push(his(2));
+	// cout << " size " << test.size() << endl; 
 
-	bfs.push(record); 
+	// test.pop(); 
+	// cout << " size " << test.size() << endl; 
+
+	Record *record;
+
+	bfs.push(new Record(0,0)); 
 	
 	int x = 0;
 	int y = 0; 
-	
+
 	while(!bfs.empty()){ 
 
 		record = bfs.front();
 		bfs.pop();
+
+		//cout << record->x << " " << record->y << " " << record <<  endl;
+
+		x = record->x; 
+		y = record->y; 
 		
-		if(visited[record] != visited.end(){ 
+		if(x < 0 || x >= MAXR || y < 0 || y >= MAXC)
+			continue;
+
+		if(distmap[x][y].visited){
 			continue;
 		}
-		
-		visited[record] = true; 
-		
-		x = record->x; 
-		y = record->y;
+
+		distmap[x][y].visited = true; 
+
+		//cout << x << " " << y << " " << record <<  endl;
 			
-		if(x == targetX && y == targetX) 
-			return record->dist;
+		if(x == targetx && y == targety) 
+			return distmap[x][y].dist;
 	
-		if(x < MAXW -1) 
+		if(x < MAXR -1) 
 			if(matrix[x+1][y])
-				bfs.push(new mapRecord(x+1, y, record->dist + 1));
-			
-		if(y < MAXH-1) 
-			if(matrix[x][y+1])
-				bfs.push(new mapRecord(x, y+1, record->dist + 1));
+				if(!distmap[x+1][y].visited){
+ 					bfs.push(new Record(x+1,y));
+					distmap[x+1][y].dist = distmap[x][y].dist +1;
+				}
 		
 		if(x > 0) 
 			if(matrix[x-1][y])
-				bfs.push(new mapRecord(x-1, y, record->dist + 1));
-		
+				if(!distmap[x-1][y].visited){
+					bfs.push(new Record(x-1,y));
+					distmap[x-1][y].dist = distmap[x][y].dist +1;
+				}
+
+		if(y < MAXC-1) 
+			if(matrix[x][y+1])
+				if(!distmap[x][y+1].visited){
+					bfs.push(new Record(x,y+1));
+					distmap[x][y+1].dist = distmap[x][y].dist +1;
+				}
+
 		if(y > 0) 
 			if(matrix[x][y-1])
-				bfs.push(new mapRecord(x, y-1), record->dist + 1);
-		/*
-		 1 0
-		 0 1 
-		-1 0 
-		 0-1
-		*/
+				if(!distmap[x][y-1].visited){
+					bfs.push(new Record(x,y-1));
+					distmap[x][y-1].dist = distmap[x][y].dist +1;
+				}
+
+		delete(record); 
+		record = NULL;
 	} 	
 
 	return -1;
 } 
-/* 
 
-   *
+/* 
+0,0 0,1 0,2
+1,0 1,1 1,2
+2,0 2,1 2,2
 */
+
+int main(int argc, char *argv[]){ 
+
+	vector<vector<int>> matrix = { 
+		{1, 0, 1},
+		{1, 0, 1},
+		{1, 0, 1}
+    };
+
+	vector<vector<int>> matrix2 = { 
+		{1, 0, 1},
+		{0, 1, 1},
+		{1, 1, 1}
+    };
+
+	vector<vector<int>> matrix3 = { 
+		{1, 0},
+		{0, 1},
+    };
+
+	vector<vector<int>> matrix4 = { 
+		{1, 1, 1},
+		{1, 0, 1},
+		{1, 1, 1}
+    };
+
+	vector<vector<int>> matrix5 = { 
+		{1, 1, 1, 1},
+		{1, 0, 1, 1},
+		{1, 1, 0, 0},
+		{0, 1, 1, 1},
+		{0, 1, 1, 1}
+    };
+
+	vector<vector<int>> matrix6 = { 
+		{1, 0, 1, 1, 1},
+		{1, 0, 1, 0, 1},
+		{1, 0, 1, 0, 1},
+		{1, 0, 1, 0, 1},
+		{1, 1, 1, 0, 1}
+    };
+
+	vector<vector<int>> matrix7 = { 
+		{1, 1, 1, 1, 0, 1, 1},
+        {1, 0, 0, 1, 1, 1, 0},
+        {1, 1, 1, 1, 0, 1, 1},
+        {1, 0, 1, 0, 1, 0, 1},
+        {1, 1, 1, 1, 1, 1, 1}
+    };
+
+	assert(-1 == shortest_path(matrix));
+	assert(-1 == shortest_path(matrix2));
+	assert(-1 == shortest_path(matrix3)); 
+
+	assert( 4 == shortest_path(matrix4)); 
+	assert( 7 == shortest_path(matrix5));
+	assert(16 == shortest_path(matrix6));
+	assert(10 == shortest_path(matrix7));
+
+	cout << "Tests completed" << endl;
+
+	return 0;
+}
